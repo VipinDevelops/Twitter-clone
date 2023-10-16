@@ -1,11 +1,18 @@
 import React from 'react';
 import Layout from './components/Layout/Layout';
 import Header from './components/Header';
+import Register from './components/Modal/Register';
+import Login from './components/Modal/Login';
 
 export default function Page() {
   return (
-    <Layout>
-      <Header label="Home" />
-    </Layout>
+    <>
+      <Login />
+      <Register />
+
+      <Layout>
+        <Header label="Home" />
+      </Layout>
+    </>
   );
 }
