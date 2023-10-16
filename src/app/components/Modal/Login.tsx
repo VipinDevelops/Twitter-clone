@@ -1,14 +1,14 @@
 'use client';
 
 import { signIn } from 'next-auth/react';
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 import Input from '../Input';
 import Modal from './Modal';
 
-import useLoginModal from '@/app/hooks/useloginModal';
-import useRegisterModal from '@/app/hooks/useRegisterModal';
+import useLoginModal from '@/hooks/useloginModal';
+import useRegisterModal from '@/hooks/useRegisterModal';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -18,7 +18,7 @@ const Login = () => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
 
-  loginModal.isOpen = true;
+  // loginModal.isOpen = true;
 
   const onSubmit = useCallback(async () => {
     try {
@@ -83,7 +83,11 @@ const Login = () => {
       isOpen={loginModal.isOpen}
       title="Sign in to Twitter"
       actionLabel="Sign in"
-      onClose={loginModal.onClose}
+      onClose={() => {
+        loginModal.onClose();
+        toast('Here is your toast.');
+        console.log('???');
+      }}
       onSubmit={onSubmit}
       body={bodyContent}
       footer={footerContent}
