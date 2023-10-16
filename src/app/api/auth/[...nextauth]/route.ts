@@ -1,21 +1,21 @@
-import NextAuth, { NextAuthOptions, User } from 'next-auth';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import Credentials from 'next-auth/providers/credentials';
-import bcrypt from 'bcrypt';
+import NextAuth, { NextAuthOptions } from "next-auth";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import Credentials from "next-auth/providers/credentials";
+import bcrypt from "bcrypt";
 
-import prismadb from '@/libs/prismadb';
+import prismadb from "@/libs/prismadb";
 
 export const authOptions: NextAuthOptions = {
   providers: [
     Credentials({
-      name: 'credentials',
+      name: "credentials",
       credentials: {
-        email: { label: 'email', type: 'text' },
-        password: { label: 'password', type: 'password' },
+        email: { label: "email", type: "text" },
+        password: { label: "password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('Invalid credentials');
+          throw new Error("Invalid credentials");
         }
 
         const user = await prismadb.user.findUnique({
@@ -23,29 +23,23 @@ export const authOptions: NextAuthOptions = {
             email: credentials.email,
           },
         });
-
-        if (!user || !user.hashedPassword) {
-          throw new Error('Invalid credentials');
+        if (!user || !user?.hashedPassword) {
+          throw new Error("Invalid credentials");
         }
 
-        const isCorrectPassword = await bcrypt.compare(
-          credentials.password,
-          user.hashedPassword
-        );
-
+        const isCorrectPassword = await bcrypt.compare(credentials.password, user.hashedPassword);
         if (!isCorrectPassword) {
-          throw new Error('Invalid credentials');
+          throw new Error("Invalid credentials");
         }
 
-        // Return the user object with the correct type
-        return user as unknown as User | null;
+        return user;
       },
     }),
   ],
-  debug: process.env.NODE_ENV === 'development',
+  debug: process.env.NODE_ENV === "development",
   adapter: PrismaAdapter(prismadb),
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
   jwt: {
     secret: process.env.NEXTAUTH_JWT_SECRET,
