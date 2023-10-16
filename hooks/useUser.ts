@@ -1,5 +1,5 @@
-import useSwr from 'swr';
-import fetcher from '../libs/fetcher';
+import useSwr from "swr";
+import fetcher from "@/libs/fetcher";
 
 const useUser = (userId: string) => {
   const _uri = userId ? `/api/users/${userId}` : null;
