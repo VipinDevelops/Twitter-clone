@@ -1,48 +1,35 @@
-import { getServerSession } from 'next-auth';
-import { NextResponse } from 'next/server';
-import { authOptions } from '../../auth/[...nextauth]/route';
-import prismadb from '@/libs/prismadb';
+import { NextResponse } from "next/server";
+import prismadb from "@/libs/prismadb";
+
 export async function GET(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session)
-      return NextResponse.json(
-        { message: 'You are not logged in.' },
-        { status: 401 }
-      );
-
-    const userId = new URL(request.url).pathname.split('/').at(-1);
-
-    if (userId === undefined) {
-      return NextResponse.json({ message: 'Missing ID' }, { status: 404 });
-    }
-
-    const userIdNumber = parseInt(userId, 10);
-
-    if (isNaN(userIdNumber)) {
-      return NextResponse.json({ message: 'Invalid ID' }, { status: 404 });
-    }
+    const userId = new URL(request.url).pathname.split("/").at(-1);
+    if (typeof userId !== "string") return NextResponse.json({ message: "Invalid ID" }, { status: 404 });
+    if (!userId) return NextResponse.json({ message: "Missing ID" }, { status: 404 });
 
     const existingUser = await prismadb.user.findUnique({
       where: {
-        id: userIdNumber,
+        id: userId,
       },
     });
 
     const followerCount = await prismadb.user.count({
       where: {
         followingIds: {
-          has: userIdNumber,
+          has: userId,
         },
       },
     });
 
-    return NextResponse.json(
-      { ...existingUser, followerCount },
-      { status: 200 }
-    );
+    const postCount = await prismadb.post.count({
+      where: {
+        userId: userId,
+      },
+    });
+
+    return NextResponse.json({ ...existingUser, followerCount, postCount }, { status: 200 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ message: 'An Error occurred' }, { status: 500 });
+    return NextResponse.json({ message: "An Error occurred" }, { status: 500 });
   }
 }
