@@ -40,12 +40,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: 'An Error occurred' }, { status: 500 });
   }
 }
-
 export async function GET(request: Request) {
   try {
     const userId = new URL(request.url).searchParams.get('userId');
-
-    const userid = parseInt(userId as string);
 
     let _args = {
       include: {
@@ -55,15 +52,15 @@ export async function GET(request: Request) {
       orderBy: {
         createdAt: 'desc',
       },
-    } as Prisma.UserArgs;
+    } as Prisma.PostFindManyArgs; // Changed the type here
 
     if (userId && typeof userId === 'string') {
       _args = {
         ..._args,
         where: {
-          userid,
+          userId: parseInt(userId), // Convert the string to an integer
         },
-      } as Prisma.UserArgs;
+      } as Prisma.PostFindManyArgs; // Changed the type here
     }
 
     const posts = await prismadb.post.findMany(_args);
