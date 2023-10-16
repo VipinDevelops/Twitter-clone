@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import Login from "./components/Modal/Login";
 import Register from "./components/Modal/Register";
 import Layout from "./components/Layout/Layout";
+import EditModal from "./components/Modal/EditModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <Provider>
         <body className={inter.className}>
           <Toaster />
+          <EditModal />
           <Login />
           <Register />
 

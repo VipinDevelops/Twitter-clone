@@ -1,43 +1,29 @@
-import { FaFeather } from 'react-icons/fa';
-import { useRouter } from 'next/navigation';
+import { FaFeather } from "react-icons/fa";
+
+import { useCallback } from "react";
+import { useRouter } from "next/navigation";
+import useLoginModal from "@/hooks/useLoginModal";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 const TweetButton = () => {
   const router = useRouter();
+  const loginModal = useLoginModal();
+  const { data: currentUser } = useCurrentUser();
+
+  const onClick = useCallback(() => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+    router.push("/");
+  }, [loginModal, router, currentUser]);
 
   return (
-    <div onClick={() => router.push('/')}>
-      <div
-        className="
-        mt-6
-        lg:hidden 
-        rounded-full 
-        h-14
-        w-14
-        p-4
-        flex
-        items-center
-        justify-center 
-        bg-sky-500 
-        hover:bg-opacity-80 
-        transition 
-        cursor-pointer
-      "
-      >
+    <div onClick={onClick}>
+      <div className="flex items-center justify-center p-4 mt-6 transition rounded-full cursor-pointer lg:hidden h-14 w-14 bg-sky-500 hover:bg-opacity-80">
         <FaFeather size={24} color="white" />
       </div>
-      <div
-        className="
-        mt-6
-        hidden 
-        lg:block 
-        px-4
-        py-2
-        rounded-full
-        bg-sky-500
-        hover:bg-opacity-90 
-        cursor-pointer
-      "
-      >
+      <div className="hidden px-4 py-2 mt-6 rounded-full cursor-pointer lg:block bg-sky-500 hover:bg-opacity-90">
         <p
           className="
             hidden 

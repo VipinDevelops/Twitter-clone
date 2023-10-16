@@ -18,7 +18,6 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, title, body, actionLabel, footer, disabled }) => {
   const handleClose = useCallback(() => {
     if (disabled) return;
-    console.log(onClose);
     onClose();
   }, [onClose, disabled]);
 
@@ -34,14 +33,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, title, body, a
       <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none bg-neutral-800 bg-opacity-70">
         <div className="relative w-full h-full mx-auto my-6 lg:w-3/6 lg:max-w-3xl lg:h-auto">
           <div className="relative flex flex-col w-full h-full bg-black border-0 shadow-lg outline-none lg:rounded-3xl lg:h-auto focus:outline-none ">
-            {/* header */}
-
             <div className="flex flex-row p-3">
               <button
                 className="p-1 text-white transition rounded-full hover:bg-gray-500/10 w-14 h-14"
                 onClick={handleClose}
               >
-                <TfiClose className="mx-auto" size={20} stroke-width="1.25" />
+                <TfiClose className="mx-auto" size={20} strokeWidth="1.25" />
               </button>
               <div className="mx-auto text-white">
                 <BsTwitter size={40} />

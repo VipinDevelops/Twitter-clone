@@ -9,7 +9,7 @@ import { PiBellBold, PiNotebook } from "react-icons/pi";
 import { HiOutlineUser } from "react-icons/hi";
 import { BiLogOut } from "react-icons/bi";
 
-import SidebarLogo from "./SideBarLogo";
+import SidebarLogo from "./SidebarLogo";
 import SidebarItem from "./SidebarItem";
 import TweetButton from "./TweetButton";
 
@@ -21,7 +21,7 @@ export default function Sidebar() {
   const items = [
     {
       label: "Home",
-      href: "",
+      href: "/",
       icon: BsHouseFill,
     },
     {
@@ -34,6 +34,7 @@ export default function Sidebar() {
       href: "/notifications",
       icon: PiBellBold,
       auth: true,
+      alert: currentUser?.hasNotification,
     },
     {
       label: "Messages",
@@ -55,7 +56,7 @@ export default function Sidebar() {
     },
     {
       label: "Profile",
-      href: "/users/132",
+      href: `/users/${currentUser?.id}`,
       icon: HiOutlineUser,
       auth: true,
     },
@@ -67,8 +68,15 @@ export default function Sidebar() {
         <div className="space-y-2 lg:w-[230px]">
           <SidebarLogo />
 
-          {items.map((item) => (
-            <SidebarItem key={item.href} href={item.href} icon={item.icon} label={item.label} auth={item.auth} />
+          {items.map((item, index) => (
+            <SidebarItem
+              key={item.href + index}
+              href={item.href}
+              icon={item.icon}
+              label={item.label}
+              auth={item.auth}
+              alert={item.alert}
+            />
           ))}
 
           {currentUser && <SidebarItem onClick={() => signOut()} icon={BiLogOut} label="Logout" />}

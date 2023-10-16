@@ -1,39 +1,42 @@
-'use client';
+"use client";
 
-import { signIn } from 'next-auth/react';
-import { useCallback, useEffect, useState } from 'react';
-import { toast } from 'react-hot-toast';
+import { signIn } from "next-auth/react";
+import { useCallback, useState } from "react";
+import { toast } from "react-hot-toast";
 
-import Input from '../Input';
-import Modal from './Modal';
+import Input from "../Input";
+import Modal from "./Modal";
 
-import useLoginModal from '@/hooks/useloginModal';
-import useRegisterModal from '@/hooks/useRegisterModal';
+import useLoginModal from "@/hooks/useLoginModal";
+import useRegisterModal from "@/hooks/useRegisterModal";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
-
-  // loginModal.isOpen = true;
 
   const onSubmit = useCallback(async () => {
     try {
       setIsLoading(true);
 
-      await signIn('credentials', {
+      const { error }: any = await signIn("credentials", {
         email,
         password,
+        redirect: false,
       });
+      if (error) {
+        toast.error("Invalid credentials.");
+        return setIsError(true);
+      }
 
-      toast.success('Logged in');
-
+      toast.success("Logged in");
       loginModal.onClose();
     } catch (error) {
-      toast.error('Something went wrong');
+      toast.error("Something went wrong");
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -47,12 +50,12 @@ const Login = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Input
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-        disabled={isLoading}
-      />
+      {isError && (
+        <div className="px-4 py-3 mb-4 text-sm text-white rounded-md bg-amber-600">
+          <p className="text-2xl font-semibold text-center">Invalid username or password</p>
+        </div>
+      )}
+      <Input placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} disabled={isLoading} />
       <Input
         placeholder="Password"
         type="password"
@@ -66,11 +69,8 @@ const Login = () => {
   const footerContent = (
     <div className="mt-4 text-center text-neutral-400">
       <p>
-        Don’t have an account?{' '}
-        <span
-          onClick={onToggle}
-          className="cursor-pointer text-sky-600 hover:underline"
-        >
+        Don’t have an account?{" "}
+        <span onClick={onToggle} className="cursor-pointer text-sky-600 hover:underline">
           Sign Up
         </span>
       </p>
@@ -83,11 +83,7 @@ const Login = () => {
       isOpen={loginModal.isOpen}
       title="Sign in to Twitter"
       actionLabel="Sign in"
-      onClose={() => {
-        loginModal.onClose();
-        toast('Here is your toast.');
-        console.log('???');
-      }}
+      onClose={loginModal.onClose}
       onSubmit={onSubmit}
       body={bodyContent}
       footer={footerContent}
