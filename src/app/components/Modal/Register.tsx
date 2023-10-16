@@ -77,7 +77,7 @@ const RegisterModal = () => {
   );
 
   const footerContent = (
-    <div className="text-neutral-400 text-center mt-4">
+    <div className="mt-4 text-neutral-400 text-center mt-4">
       <p>
         Already have an account?
         <span className="text-white cursor-pointer hover:underline">
