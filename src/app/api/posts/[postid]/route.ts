@@ -1,5 +1,4 @@
 import prismadb from '@/libs/prismadb';
-import { Prisma } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request, { params }: any) {
@@ -27,11 +26,6 @@ export async function GET(request: Request, { params }: any) {
 
     return NextResponse.json(post, { status: 200 });
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      console.error(error);
-      return NextResponse.json({ message: 'Invalid ID' }, { status: 404 });
-    }
-
     console.error(error);
     return NextResponse.json({ message: 'An Error occurred' }, { status: 500 });
   }
