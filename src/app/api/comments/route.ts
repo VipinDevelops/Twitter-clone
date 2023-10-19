@@ -33,14 +33,14 @@ export async function POST(request: Request, { params, searchParams }: any) {
       data: {
         body,
         userId: currentUser.id,
-        postId: parseInt(postid),
+        postId: postid,
       },
     });
 
     try {
       const post = await prismadb.post.findUnique({
         where: {
-          id: parseInt(postid),
+          id: postid,
         },
       });
 

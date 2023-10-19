@@ -1,15 +1,16 @@
-import prismadb from "@/libs/prismadb";
-import { Prisma } from "@prisma/client";
-import { NextResponse } from "next/server";
+import prismadb from '@/libs/prismadb';
+import { Prisma } from '@prisma/client';
+import { NextResponse } from 'next/server';
 
 export async function GET(request: Request, { params }: any) {
   try {
     const { postid } = params;
-    if (!postid || typeof postid !== "string") return NextResponse.json({ message: "Invalid ID" }, { status: 404 });
+    if (!postid || typeof postid !== 'string')
+      return NextResponse.json({ message: 'Invalid ID' }, { status: 404 });
 
     const post = await prismadb.post.findUnique({
       where: {
-        id: parseInt(postid),
+        id: postid,
       },
       include: {
         user: true,
@@ -18,7 +19,7 @@ export async function GET(request: Request, { params }: any) {
             user: true,
           },
           orderBy: {
-            createdAt: "desc",
+            createdAt: 'desc',
           },
         },
       },
@@ -28,10 +29,10 @@ export async function GET(request: Request, { params }: any) {
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       console.error(error);
-      return NextResponse.json({ message: "Invalid ID" }, { status: 404 });
+      return NextResponse.json({ message: 'Invalid ID' }, { status: 404 });
     }
 
     console.error(error);
-    return NextResponse.json({ message: "An Error occurred" }, { status: 500 });
+    return NextResponse.json({ message: 'An Error occurred' }, { status: 500 });
   }
 }

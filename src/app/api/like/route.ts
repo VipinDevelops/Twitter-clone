@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
     const post = await prismadb.post.findUnique({
       where: {
-        id: parseInt(postid),
+        id: postid,
       },
     });
     if (!post) throw new Error('Invalid ID');
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     try {
       const post = await prismadb.post.findUnique({
         where: {
-          id: parseInt(postid),
+          id: postid,
         },
       });
 
@@ -68,7 +68,7 @@ export async function POST(request: Request) {
 
     const updatedPost = await prismadb.post.update({
       where: {
-        id: parseInt(postid),
+        id: postid,
       },
       data: {
         likedIds: updatedLikedIds,
@@ -108,7 +108,7 @@ export async function DELETE(request: Request, { params }: any) {
 
     const post = await prismadb.post.findUnique({
       where: {
-        id: parseInt(postid),
+        id: postid,
       },
     });
     if (!post) throw new Error('Invalid ID');
@@ -120,7 +120,7 @@ export async function DELETE(request: Request, { params }: any) {
 
     const updatedPost = await prismadb.post.update({
       where: {
-        id: parseInt(postid),
+        id: postid,
       },
       data: {
         likedIds: updatedLikedIds,

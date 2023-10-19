@@ -58,7 +58,7 @@ export async function GET(request: Request) {
       _args = {
         ..._args,
         where: {
-          userId: parseInt(userId), // Convert the string to an integer
+          userId: userId, // Convert the string to an integer
         },
       } as Prisma.PostFindManyArgs; // Changed the type here
     }

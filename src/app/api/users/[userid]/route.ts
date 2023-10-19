@@ -11,21 +11,21 @@ export async function GET(request: Request) {
 
     const existingUser = await prismadb.user.findUnique({
       where: {
-        id: parseInt(userId),
+        id: userId,
       },
     });
 
     const followerCount = await prismadb.user.count({
       where: {
         followingIds: {
-          has: parseInt(userId),
+          has: userId,
         },
       },
     });
 
     const postCount = await prismadb.post.count({
       where: {
-        userId: parseInt(userId),
+        userId: userId,
       },
     });
 

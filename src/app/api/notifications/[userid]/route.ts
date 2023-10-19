@@ -1,33 +1,35 @@
-
-
-import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
-import { authOptions } from "../../auth/[...nextauth]/route";
-import prismadb from "@/libs/prismadb";
+import { getServerSession } from 'next-auth';
+import { NextResponse } from 'next/server';
+import { authOptions } from '../../auth/[...nextauth]/route';
+import prismadb from '@/libs/prismadb';
 
 export async function GET(request: Request, { params }: any) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) return NextResponse.json({ message: "You are not logged in." }, { status: 401 });
+    if (!session)
+      return NextResponse.json(
+        { message: 'You are not logged in.' },
+        { status: 401 }
+      );
 
     const { userid } = params;
 
-    if (!userid || typeof userid !== "string") {
-      throw new Error("Invalid ID");
+    if (!userid || typeof userid !== 'string') {
+      throw new Error('Invalid ID');
     }
 
     const notifications = await prismadb.notification.findMany({
       where: {
-        userId: parseInt(userid),
+        userId: userid,
       },
       orderBy: {
-        createdAt: "desc",
+        createdAt: 'desc',
       },
     });
 
     await prismadb.user.update({
       where: {
-        id: parseInt(userid),
+        id: userid,
       },
       data: {
         hasNotification: false,
@@ -37,6 +39,6 @@ export async function GET(request: Request, { params }: any) {
     return NextResponse.json(notifications, { status: 200 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ message: "An Error occurred" }, { status: 500 });
+    return NextResponse.json({ message: 'An Error occurred' }, { status: 500 });
   }
 }
