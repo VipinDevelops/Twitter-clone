@@ -2,9 +2,7 @@ import prismadb from '@/libs/prismadb';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/route';
-import { DefaultArgs } from '@prisma/client/runtime/library';
-import { Prisma } from '@prisma/client';
-import { useSearchParams } from 'next/navigation';
+
 
 export async function POST(request: Request) {
   try {
@@ -54,7 +52,6 @@ export async function GET(request: Request) {
         createdAt: 'desc',
       },
     };
-
     if (userId && typeof userId === 'string') {
       _args = {
         where: {
