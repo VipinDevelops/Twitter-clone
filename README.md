@@ -34,3 +34,16 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+This project features a well-organized structure with components, API routes, and database management using Prisma. It's built on the Next.js framework with a beautiful, responsive design using Tailwind CSS. Feel free to explore the codebase and see the project in action.
+
+## Getting Started
+
+1. Clone this repository.
+2. Install dependencies using `yarn install`.
+3. Configure your PostgreSQL database and update the Prisma schema.
+4. Run the development server using `yarn dev`.
+
+Enjoy exploring and customizing your Twitter clone project!
+
