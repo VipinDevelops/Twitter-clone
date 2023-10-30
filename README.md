@@ -1,5 +1,7 @@
 <p align="center">
   <img src="https://logo.com/image-cdn/images/kts928pd/production/08207a1a4c3383abed17d2995786c44959ceaa91-1140x620.png?w=1080&q=72" alt="Twitter Clone Logo">
+  ![image](https://github.com/VipinDevelops/twitter-clone/assets/99081689/05e2a3ec-e8a5-4100-8a02-ecf581881faf)
+
 </p>
 
 # Twitter Clone
