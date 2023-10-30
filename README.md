@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://logo.com/image-cdn/images/kts928pd/production/08207a1a4c3383abed17d2995786c44959ceaa91-1140x620.png?w=1080&q=72" alt="Twitter Clone Logo">
-  <img src="[https://logo.com/image-cdn/images/kts928pd/production/08207a1a4c3383abed17d2995786c44959ceaa91-1140x620.png](https://user-images.githubusercontent.com/99081689/279067604-d8d9f3e8-4ae0-48c2-a9eb-da31274a9ab5.png)?w=1080&q=72" alt="Twitter Clone Logo">
+  
 </p>
 
 # Twitter Clone
